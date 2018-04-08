@@ -1,14 +1,18 @@
-#include <iostream.h>
-#include <conio.h>
+#include<iostream.h>
+#include<iomanip.h>
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
 #include<dos.h>
+#include<fstream.h>
+#include<conio.h>
 void centertext(char *);
+void score_store(char *,int);
 void singleplayer();
 void multiplayer();
 void credits();
 void dispgameover();
+void leaderboard();
 int gameOver;
 const int width = 50;
 const int height = 20;
@@ -164,8 +168,9 @@ centertext("MAIN MENU");
 cout<<"\n\n\n";
 centertext("1. Single Player");
 centertext("2. Play Multiplayer");
-centertext("3. Credits");
-centertext("4. Exit");
+centertext("3. Leader Board");
+centertext("4. Credits");
+centertext("5. Exit");
 cout<<"\n\n\n";
 centertext("Enter Your Choice :");
 cout<<"\t\t\t\t      ";
@@ -175,9 +180,11 @@ switch(ch)
 		   break;
 	case 2:    multiplayer();
 		   break;
-	case 3:    credits();
+	case 3:    leaderboard();
 		   break;
-	case 4:	   exit(0);
+	case 4:    credits();
+		   break;
+	case 5:	   exit(0);
 		   break;
 	default:   cout<<"Wrong choice!!! Enter again";
 		   getch();
@@ -298,5 +305,30 @@ cout<<"         ллл       ллл       ллл   ллл     ллл         ллл   ллл      \n"
 cout<<"            ллллллл             ллл        ллллллллл   ллл      ллл   \n";
 cout<<"            ппппппп             ппп        ппппппппп   ппп      ппп   \n";
 cout<<"                                                                      \n";
+char name[25]="UNKNOWN";
+cout<<"\t\t\t\tYOUR SCORE : "<<score1<<endl;
+cout<<"Enter Your Name : ";
+scanf("%s",name);
+score_store(name,score1);
 getch();
+}
+void score_store(char _name[25],int sc)
+{ofstream fout;   //Write data on file
+ fout.open("leader.txt",ios::ate);
+ fout<<_name<<" "<<sc<<endl;
+ fout.close();
+}
+void leaderboard()
+{   char data[30];
+    int score_;
+    ifstream fin;
+    fin.open("leader.txt",ios::in);
+    clrscr();
+   while(!fin.eof())
+    {   fin>>data;
+	fin>>score_;
+	cout<<"\n\n\n"<<setw(40)<<"NAME : SCORE\n\n";
+	cout<<setw(40)<<data<<" : "<<score_<<endl;
+    }
+    getch();
 }
